@@ -19,7 +19,13 @@ function findById(id) {
 function findSteps(schemeId) {
   return db("schemes as s")
     .join("steps as st", "st.step_number", "s.id")
-    .select("s.scheme_name","st.instructions", "st.step_number")
-    .where({ 's.id': schemeId });
+    .select("s.scheme_name", "st.instructions", "st.step_number")
+    .where({ "s.id": schemeId });
 }
-
+function add(schema) {
+  return db("schemes")
+    .insert(schema, "id")
+    .then(([id]) => {
+      return findById(id);
+    });
+}
